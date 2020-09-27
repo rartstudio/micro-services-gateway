@@ -1,13 +1,12 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 //import from env
 //need install npm install dotenv --save
 const { APP_NAME } = process.env;
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send(APP_NAME);
-});
+const usersHandler = require('./handler/users');
+
+router.get('/register',usersHandler.register);
 
 module.exports = router;
