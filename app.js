@@ -15,8 +15,12 @@ const mediaRouter = require('./routes/media');
 const ordersRouter = require('./routes/orders');
 const paymentsRouter = require('./routes/payments');
 
+//import token
+const refreshTokensRouter = require('./routes/refreshTokens');
+
 //import middleware
 const verifyToken = require('./middlewares/verifyToken');
+
 
 const app = express();
 
@@ -34,7 +38,10 @@ app.use('/media', mediaRouter);
 app.use('/orders', ordersRouter);
 app.use('/payments', paymentsRouter);
 
-
-//add middleware verifytoken . so authenticated user just can see course
+//add middleware verifytoken . so authenticated user just can see endpoint
 app.use('/courses',verifyToken, coursesRouter);
+
+//add refresh token endpoint
+app.use('/refresh-tokens',refreshTokensRouter);
+
 module.exports = app;
