@@ -15,6 +15,9 @@ const mediaRouter = require('./routes/media');
 const ordersRouter = require('./routes/orders');
 const paymentsRouter = require('./routes/payments');
 
+//import middleware
+const verifyToken = require('./middlewares/verifyToken');
+
 const app = express();
 
 app.use(logger('dev'));
@@ -27,9 +30,11 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 //add routing additional on top
-app.use('/courses', coursesRouter);
 app.use('/media', mediaRouter);
 app.use('/orders', ordersRouter);
 app.use('/payments', paymentsRouter);
 
+
+//add middleware verifytoken . so authenticated user just can see course
+app.use('/courses',verifyToken, coursesRouter);
 module.exports = app;
