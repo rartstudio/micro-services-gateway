@@ -19,4 +19,7 @@ router.put('/',verifyToken,usersHandler.update);
 //need to have jwt token before get profile
 router.get('/',verifyToken,usersHandler.getUser);
 
+//need to have jwt token before get profile
+router.post('/logout',verifyToken,usersHandler.logout);
+
 module.exports = router;
