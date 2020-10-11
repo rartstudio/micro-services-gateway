@@ -15,6 +15,7 @@ const mediaRouter = require('./routes/media');
 const ordersRouter = require('./routes/orders');
 const paymentsRouter = require('./routes/payments');
 const mentorsRouter = require('./routes/mentors');
+const chaptersRouter = require('./routes/chapters');
 
 //import token
 const refreshTokensRouter = require('./routes/refreshTokens');
@@ -41,6 +42,7 @@ app.use('/payments', paymentsRouter);
 
 //add middleware verifytoken . so authenticated user just can see endpoint
 app.use('/courses', coursesRouter);
+app.use('/chapters',verifyToken,chaptersRouter);
 app.use('/mentors',verifyToken,mentorsRouter);
 
 //add refresh token endpoint
