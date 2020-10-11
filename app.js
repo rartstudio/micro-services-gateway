@@ -40,7 +40,7 @@ app.use('/orders', ordersRouter);
 app.use('/payments', paymentsRouter);
 
 //add middleware verifytoken . so authenticated user just can see endpoint
-app.use('/courses',verifyToken, coursesRouter);
+app.use('/courses', coursesRouter);
 app.use('/mentors',verifyToken,mentorsRouter);
 
 //add refresh token endpoint
