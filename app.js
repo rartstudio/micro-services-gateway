@@ -17,7 +17,9 @@ const paymentsRouter = require('./routes/payments');
 const mentorsRouter = require('./routes/mentors');
 const chaptersRouter = require('./routes/chapters');
 const lessonsRouter = require('./routes/lessons');
+const reviewsRouter = require('./routes/reviews');
 const imageCoursesRouter = require('./routes/imageCourses');
+const myCoursesRouter = require('./routes/myCourses');
 
 //import token
 const refreshTokensRouter = require('./routes/refreshTokens');
@@ -48,6 +50,8 @@ app.use('/image-courses',verifyToken,imageCoursesRouter);
 app.use('/lessons', verifyToken,lessonsRouter);
 app.use('/chapters',verifyToken,chaptersRouter);
 app.use('/mentors',verifyToken,mentorsRouter);
+app.use('/my-courses',verifyToken,myCoursesRouter);
+app.use('/reviews',verifyToken,reviewsRouter);
 
 //add refresh token endpoint
 app.use('/refresh-tokens',refreshTokensRouter);
