@@ -29,6 +29,18 @@ const verifyToken = require('./middlewares/verifyToken');
 
 
 const app = express();
+const cors = require('cors');
+let whitelist = ['http://localhost:3001', 'http://localhost:3002']
+let corsOptions = {
+    origin: function (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    },
+    credentials: true
+}
 
 app.use(logger('dev'));
 app.use(express.json({limit: '50mb'}));
@@ -37,7 +49,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/users',cors(corsOptions), usersRouter);
 
 //add routing additional on top
 app.use('/media', mediaRouter);
@@ -54,6 +66,6 @@ app.use('/my-courses',verifyToken,myCoursesRouter);
 app.use('/reviews',verifyToken,reviewsRouter);
 
 //add refresh token endpoint
-app.use('/refresh-tokens',refreshTokensRouter);
+app.use('/refresh-tokens',cors(corsOptions),refreshTokensRouter);
 
 module.exports = app;
