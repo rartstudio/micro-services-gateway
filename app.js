@@ -57,12 +57,12 @@ app.use('/orders', ordersRouter);
 app.use('/payments', paymentsRouter);
 
 //add middleware verifytoken . so authenticated user just can see endpoint
-app.use('/courses', coursesRouter);
+app.use('/courses',cors(corsOptions), coursesRouter);
 app.use('/image-courses',verifyToken,imageCoursesRouter);
-app.use('/lessons', verifyToken,lessonsRouter);
-app.use('/chapters',verifyToken,chaptersRouter);
+app.use('/lessons', cors(corsOptions),verifyToken,lessonsRouter);
+app.use('/chapters',cors(corsOptions),verifyToken,chaptersRouter);
 app.use('/mentors',verifyToken,mentorsRouter);
-app.use('/my-courses',verifyToken,myCoursesRouter);
+app.use('/my-courses',cors(corsOptions),verifyToken,myCoursesRouter);
 app.use('/reviews',verifyToken,reviewsRouter);
 
 //add refresh token endpoint
