@@ -12,14 +12,15 @@ const usersRouter = require('./routes/users');
 //import additional router
 const coursesRouter = require('./routes/courses');
 const mediaRouter = require('./routes/media');
-const ordersRouter = require('./routes/orders');
-const paymentsRouter = require('./routes/payments');
 const mentorsRouter = require('./routes/mentors');
 const chaptersRouter = require('./routes/chapters');
 const lessonsRouter = require('./routes/lessons');
 const reviewsRouter = require('./routes/reviews');
 const imageCoursesRouter = require('./routes/imageCourses');
 const myCoursesRouter = require('./routes/myCourses');
+const webhookRouter = require('./routes/webhook');
+const orderPaymentsRouter = require('./routes/orderPayments');
+const can = require('./middlewares/permission');
 
 //import token
 const refreshTokensRouter = require('./routes/refreshTokens');
@@ -49,12 +50,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users',cors(corsOptions), usersRouter);
+// app.use('/users',cors(corsOptions), usersRouter);
+app.use('/users', usersRouter);
 
 //add routing additional on top
 app.use('/media', mediaRouter);
-app.use('/orders', ordersRouter);
-app.use('/payments', paymentsRouter);
 
 //add middleware verifytoken . so authenticated user just can see endpoint
 app.use('/courses',cors(corsOptions), coursesRouter);
@@ -62,10 +62,23 @@ app.use('/image-courses',verifyToken,imageCoursesRouter);
 app.use('/lessons', cors(corsOptions),verifyToken,lessonsRouter);
 app.use('/chapters',cors(corsOptions),verifyToken,chaptersRouter);
 app.use('/mentors',verifyToken,mentorsRouter);
-app.use('/my-courses',cors(corsOptions),verifyToken,myCoursesRouter);
+// app.use('/my-courses',cors(corsOptions),verifyToken,myCoursesRouter);
+app.use('/my-courses',verifyToken,myCoursesRouter);
 app.use('/reviews',verifyToken,reviewsRouter);
+app.use('/webhook',webhookRouter);
+app.use('/orders',verifyToken,orderPaymentsRouter);
 
 //add refresh token endpoint
 app.use('/refresh-tokens',cors(corsOptions),refreshTokensRouter);
+
+//if front end done enable this
+// app.use('/chapters',verifyToken, can('admin'), chaptersRouter);
+// app.use('/lessons',verifyToken, can('admin'), lessonsRouter);
+// app.use('/media',verifyToken, can('admin','student'), mediaRouter);
+// app.use('/orders',verifyToken, can('admin','student'), orderPaymentsRouter);
+// app.use('/mentors',verifyToken, can('admin'), mentorsRouter);
+// app.use('/image-courses',verifyToken, can('admin'), imageCoursesRouter);
+// app.use('/my-courses',verifyToken, can('admin','student'), myCoursesRouter);
+// app.use('/reviews',verifyToken, can('admin','student'), reviewsRouter);
 
 module.exports = app;
